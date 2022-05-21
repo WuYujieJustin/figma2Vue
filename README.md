@@ -1,1 +1,1 @@
-# figma2Vue
+# Vue 3 Plugin Template for Figma
