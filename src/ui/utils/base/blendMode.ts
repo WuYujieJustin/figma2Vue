@@ -1,3 +1,3 @@
-export const blendMode = val => {
+export const blendMode = (val: BlendMode) => {
     return val.replace('-', '_').toLowerCase()
 }

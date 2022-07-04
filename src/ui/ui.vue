@@ -1,7 +1,8 @@
 <template>
 <div id="ui">
-	<button class="button button--primary" @click='createNode'>export</button>
-	<p class="type type--pos-small-normal"> {{message}} </p>
+	<button class="button button--primary" @click='createNode'>导出</button>
+	<button class="button button--primary" @click='setImage'>设置为图片</button>
+  {{ imageNode }}
 </div>
 </template>
 
@@ -18,27 +19,31 @@ import {
 
 export default {
   setup() {
-
     const message = ref("")
-
+    const imageNode = ref([])
     function createNode() {
-      // This shows how the UI code can send messages to the main code.
-      dispatch("createNode");
+      // todo get imageNode Value
+      dispatch("createNode", ["341:15494"]);
+    }
+    const setImage = () => {
+      dispatch("setImage");
     }
     onMounted(() => {
-
-      // The following shows how messages from the main code can be handled in the UI code.
-      handleEvent("nodeCreated", val => {
-        console.log(val[0])
-        const helper = JSON.parse(JSON.stringify(val))
-        console.log(helper)
-        message.value = `Node was!`;
+      handleEvent("imageNodeSet", val => {
+        const { id } = val
+        if (!imageNode.value.includes(id)) {
+          imageNode.value.push(id)
+        } else {
+          dispatch("errorMessage",'已设置为图片类型');
+        }
       });
     })
 
     return {
       message,
-      createNode
+      createNode,
+      setImage,
+      imageNode
     };
   }
 
