@@ -1,9 +1,15 @@
+import { getStyleObj } from "./ui/utils/index";
 import { dispatch, handleEvent } from "./codeMessageHandler";
 import base64 from "@hexagon/base64";
 figma.showUI(__html__);
 // Skip over invisible nodes and their descendants inside instances for faster performance
-figma.skipInvisibleInstanceChildren = true
+figma.skipInvisibleInstanceChildren = true;
+
+// const getStyleObj = (val:SceneNode) => val
+
+// todo send to ui to decode bytes using browser built-in function
 // 解析为图片
+// upload cdn
 const exportAsImage = (val: SceneNode) => {
   return new Promise(async (resolve, reject) => {
     const unit8ArrayValue = await val.exportAsync({
@@ -16,8 +22,11 @@ const exportAsImage = (val: SceneNode) => {
       origin: val,
       node: "img",
       src: image,
-      style: {},
+      style: getStyleObj(JSON.parse(JSON.stringify(val))),
     };
+    // await upload cdn
+    // const url = await uploadCdn(image)
+    // resolve(url)
     resolve(helper);
   });
 };
@@ -29,7 +38,7 @@ const parseNode = async (val: SceneNode) => {
     const helper = {
       id,
       node: "div",
-      style: {},
+      style: getStyleObj(JSON.parse(JSON.stringify(val))),
       text: "",
       origin: val,
     };
@@ -39,25 +48,20 @@ const parseNode = async (val: SceneNode) => {
     resolve(helper);
   });
 };
-// export node type
-/**
- * {
- *  node: img | div,
- *  style: Object,
- *  text: string,
- *  src: base64
- * }
- *
- **/
+
+const isExportAsImage = (val: SceneNode) => {
+  const { name } = val;
+  return name.indexOf("#export_as_image") > -1;
+};
+
 // BFS
 // todo val type?
 // figma.currentPage.selection
-const recursion = async (val: any, imageNodeList: Object[], result: any) => {
+const recursion = async (val: any, result: any) => {
   return new Promise(async (resolve, reject) => {
     for (const node of val) {
-      const { id } = node;
       if (Array.isArray(node.children)) {
-        if (imageNodeList.includes(id)) {
+        if (isExportAsImage(node)) {
           const image = await exportAsImage(node);
           result.push(image);
         } else {
@@ -65,12 +69,11 @@ const recursion = async (val: any, imageNodeList: Object[], result: any) => {
           result.push(helper);
           result[result.length - 1].children = await recursion(
             node.children,
-            imageNodeList,
             []
           );
         }
       } else {
-        if (imageNodeList.includes(id)) {
+        if (isExportAsImage(node)) {
           const image = await exportAsImage(node);
           result.push(image);
         } else {
@@ -83,14 +86,21 @@ const recursion = async (val: any, imageNodeList: Object[], result: any) => {
   });
 };
 
-handleEvent("createNode", async (val: Object[]) => {
-  const result = await recursion(figma.currentPage.selection, val, []);
+handleEvent("createNode", async () => {
+  const result = await recursion(figma.currentPage.selection, []);
   console.log(result);
 });
 
 handleEvent("setImage", () => {
   const selection = figma.currentPage.selection;
-  dispatch("imageNodeListSet", selection[0]);
+  const { name } = selection[0];
+  if (name.indexOf("#export_as_image") > -1) {
+    figma.notify("该节点已被设置为图片节点");
+  } else {
+    const node = figma.currentPage.selection[0];
+    node.name = name + "#export_as_image";
+    figma.currentPage.selection = [node];
+  }
 });
 
 handleEvent("errorMessage", (val: string) => {

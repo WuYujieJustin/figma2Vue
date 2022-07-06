@@ -1,4 +1,4 @@
-export const layoutAlign = val => {
+export const layoutAlign = (val: LayoutMixin['layoutAlign']) => {
     // 'MIN' | 'CENTER' | 'MAX' | 'STRETCH' | 'INHERIT'
     const dict = {
         MIN: 'start',

@@ -1,19 +1,19 @@
 import { fontName } from "./fontName"
-// import { fontSize } from "./fontSize.js"
-// import { letterSpacing } from "./letterSpacing.js"
-// import { lineHeight } from "./lineHeight.js"
-// import { textAlignHorizontal } from "./textAlignHorizontal.js"
-// import { textDecoration } from "./textDecoration.js"
-
-// export const textStyles = {
-//     textDecoration,
-//     fontName,
-//     fontSize,
-//     letterSpacing,
-//     lineHeight,
-//     textAlignHorizontal
-// }
+import { fontSize } from "./fontSize"
+import { letterSpacing } from "./letterSpacing"
+import { lineHeight } from "./lineHeight"
+import { textAlignHorizontal } from "./textAlignHorizontal"
+import { textDecoration } from "./textDecoration"
+import { paragraphIndent } from "./paragraphIndent"
+import { textStyle } from "./TextStyle"
 
 export const textStyles = {
-    fontName
+    textDecoration,
+    fontName,
+    fontSize,
+    letterSpacing,
+    lineHeight,
+    textAlignHorizontal,
+    textStyle,
+    paragraphIndent
 }
