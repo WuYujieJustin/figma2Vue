@@ -2,7 +2,6 @@
 <div id="ui">
 	<button class="button button--primary" @click='createNode'>导出</button>
 	<button class="button button--primary" @click='setImage'>设置为图片</button>
-  {{ imageNode }}
 </div>
 </template>
 

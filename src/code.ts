@@ -17,12 +17,13 @@ const exportAsImage = (val: SceneNode) => {
       contentsOnly: false,
       useAbsoluteBounds: true,
     });
+    const style = await getStyleObj(val)
     const image = base64.fromArrayBuffer(unit8ArrayValue);
     const helper = {
       origin: val,
       node: "img",
       src: image,
-      style: getStyleObj(JSON.parse(JSON.stringify(val))),
+      style,
     };
     // await upload cdn
     // const url = await uploadCdn(image)
@@ -33,12 +34,12 @@ const exportAsImage = (val: SceneNode) => {
 
 // 解析为普通html节点
 const parseNode = async (val: SceneNode) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const { id, type } = val;
     const helper = {
       id,
       node: "div",
-      style: getStyleObj(JSON.parse(JSON.stringify(val))),
+      style: getStyleObj(val),
       text: "",
       origin: val,
     };
