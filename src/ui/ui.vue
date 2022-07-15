@@ -36,6 +36,9 @@ export default {
           dispatch("errorMessage",'已设置为图片类型');
         }
       });
+      handleEvent("nodeParsed", val => {
+        console.log(val)
+      });
     })
 
     return {

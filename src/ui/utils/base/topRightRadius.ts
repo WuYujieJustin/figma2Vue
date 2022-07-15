@@ -1,5 +1,8 @@
 export const topRightRadius = (val: number) => {
+    if (val === 0) {
+        return {}
+    }
     return {
-        'top-right-radius': val + 'px'
+        'border-top-right-radius': val + 'px'
     }
 }

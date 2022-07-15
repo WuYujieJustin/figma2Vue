@@ -6,6 +6,7 @@ import { textAlignHorizontal } from "./textAlignHorizontal"
 import { textDecoration } from "./textDecoration"
 import { paragraphIndent } from "./paragraphIndent"
 import { textStyle } from "./TextStyle"
+import { strokeWeight } from "./strokeWeight"
 
 export const textStyles = {
     textDecoration,
@@ -15,5 +16,6 @@ export const textStyles = {
     lineHeight,
     textAlignHorizontal,
     textStyle,
-    paragraphIndent
+    paragraphIndent,
+    strokeWeight
 }

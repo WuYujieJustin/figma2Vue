@@ -1,11 +1,9 @@
-import { getStyleObj } from "./ui/utils/index";
+import { getStyleObj, combineNode } from "./ui/utils/index";
 import { dispatch, handleEvent } from "./codeMessageHandler";
 import base64 from "@hexagon/base64";
 figma.showUI(__html__);
 // Skip over invisible nodes and their descendants inside instances for faster performance
 figma.skipInvisibleInstanceChildren = true;
-
-// const getStyleObj = (val:SceneNode) => val
 
 // todo send to ui to decode bytes using browser built-in function
 // 解析为图片
@@ -36,10 +34,11 @@ const exportAsImage = (val: SceneNode) => {
 const parseNode = async (val: SceneNode) => {
   return new Promise(async (resolve, reject) => {
     const { id, type } = val;
+    const style = await getStyleObj(val)
     const helper = {
       id,
       node: "div",
-      style: getStyleObj(val),
+      style,
       text: "",
       origin: val,
     };
@@ -89,7 +88,9 @@ const recursion = async (val: any, result: any) => {
 
 handleEvent("createNode", async () => {
   const result = await recursion(figma.currentPage.selection, []);
-  console.log(result);
+  dispatch('nodeParsed', result)
+  const combineResult = combineNode(result[0])
+  console.log(combineResult, 'combineResult')
 });
 
 handleEvent("setImage", () => {

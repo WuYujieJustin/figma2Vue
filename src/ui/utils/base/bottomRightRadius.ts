@@ -1,5 +1,8 @@
 export const bottomRightRadius = (val: number) => {
+    if (val === 0) {
+        return {}
+    }
     return {
-        'bottom-right-radius': val + 'px'
+        'border-bottom-right-radius': val + 'px'
     }
 }

@@ -2,8 +2,7 @@ import { letterSpacing } from './letterSpacing'
 import { fontName } from './fontName'
 import { textDecoration } from './textDecoration'
 import { lineHeight } from './lineHeight'
-// paragraphSpacing
-// textCase
+
 export const textStyle = (val: TextStyle) => {
     const letterSpacingValue = letterSpacing(val.letterSpacing)
     const fontNameValue = fontName(val.fontName)

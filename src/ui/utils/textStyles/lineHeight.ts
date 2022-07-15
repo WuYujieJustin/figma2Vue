@@ -2,7 +2,9 @@ export const lineHeight = (val: LineHeight) => {
     if (val.unit === 'AUTO') {
         return {}
     }
+    const base = val.value
+    const unit = (val.unit === 'PIXELS') ? 'px' : '%'
     return {
-        'line-height': val.value + val.unit === 'PIXELS' ? 'px' : '%'
+        'line-height': base + unit
     }
 }

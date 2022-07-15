@@ -1,3 +1,6 @@
 export const blendMode = (val: BlendMode) => {
-    return val.replace('-', '_').toLowerCase()
+    const helper = val.replace('-', '_').toLowerCase()
+    return {
+        'blend-mode': helper
+    }
 }

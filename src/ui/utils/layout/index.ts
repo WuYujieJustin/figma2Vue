@@ -8,6 +8,7 @@ import { paddingRight } from "./paddingRight"
 import { paddingTop } from "./paddingTop"
 import { absoluteTransform } from "./absoluteTransform"
 import { relativeTransform } from "./relativeTransform"
+import { rotation } from "./rotation"
 export const layout = {
     layoutAlign,
     itemSpacing,
@@ -18,5 +19,6 @@ export const layout = {
     paddingTop,
     paddingRight,
     relativeTransform,
-    absoluteTransform
+    absoluteTransform,
+    rotation
 }

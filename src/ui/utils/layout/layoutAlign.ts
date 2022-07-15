@@ -8,6 +8,7 @@ export const layoutAlign = (val: LayoutMixin['layoutAlign']) => {
         INHERIT: 'flex-start'
     }
     return {
-        'align-items': dict[val]
+        'align-items': dict[val],
+        'position': 'absolute'
     }
 }
